@@ -1,0 +1,4 @@
+class: BMIData
+fields:
+    result: double
+    message: String

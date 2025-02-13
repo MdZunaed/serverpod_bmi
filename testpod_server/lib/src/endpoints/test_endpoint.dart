@@ -15,12 +15,21 @@ class TestEndpoint extends Endpoint {
 
     switch (bmi) {
       case <= 18.4:
+        message = "Sutki";
+        break;
+      case >= 18.5 && < 25:
+        message = "Thik Ase";
+        break;
+      case >= 25 && < 40:
         message = "Votka / Vutki";
-        break;  
+        break;
+      case >= 40:
+        message = "Alur Bosta";
+        break;
+      default:
+        message = "Not Found";
     }
 
-    BMIData bmiData = BMIData(result: bmi, message: message);
-
-    return bmiData;
+    return BMIData(result: bmi, message: message);
   }
 }

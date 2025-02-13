@@ -11,7 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'protocol.dart' as _i3;
+import 'package:testpod_client/src/protocol/bmi.dart' as _i3;
+import 'protocol.dart' as _i4;
 
 /// {@category Endpoint}
 class EndpointExample extends _i1.EndpointRef {
@@ -34,11 +35,11 @@ class EndpointTest extends _i1.EndpointRef {
   @override
   String get name => 'test';
 
-  _i2.Future<double> calculateBMI(
+  _i2.Future<_i3.BMIData> calculateBMI(
     double height,
     double weight,
   ) =>
-      caller.callServerEndpoint<double>(
+      caller.callServerEndpoint<_i3.BMIData>(
         'test',
         'calculateBMI',
         {
@@ -64,7 +65,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i3.Protocol(),
+          _i4.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,

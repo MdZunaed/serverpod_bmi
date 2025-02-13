@@ -20,11 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Serverpod Demo',
+      title: 'Serverpod BMI',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Serverpod Example'),
+      home: const MyHomePage(title: 'Serverpod BMI'),
     );
   }
 }
@@ -44,18 +45,22 @@ class MyHomePageState extends State<MyHomePage> {
   String? _resultMessage;
   String? _errorMessage;
 
-  final _textEditingController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
 
   // Calls the `hello` method of the `example` endpoint. Will set either the
   // `_resultMessage` or `_errorMessage` field, depending on if the call
   // is successful.
-  void _callHello() async {
+  void _calculateBMI() async {
     try {
-     double bmi = await client.test.calculateBMI(180, 75);
-      final result = await client.example.hello(_textEditingController.text);
+      BMIData bmiData = await client.test.calculateBMI(
+          double.parse(heightController.text.trim()),
+          double.parse(weightController.text.trim()));
+      //final result = await client.example.hello(_textEditingController.text);
       setState(() {
         _errorMessage = null;
-        _resultMessage = result;
+        _resultMessage =
+            "BMI: ${bmiData.result.toStringAsFixed(2)}, ${bmiData.message}";
       });
     } catch (e) {
       setState(() {
@@ -77,16 +82,25 @@ class MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: TextField(
-                controller: _textEditingController,
+                controller: heightController,
                 decoration: const InputDecoration(
-                  hintText: 'Enter your name',
+                  hintText: 'Enter your height in Centimeter',
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextField(
+                controller: weightController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your weight in Kg',
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
               child: ElevatedButton(
-                onPressed: _callHello,
+                onPressed: _calculateBMI,
                 child: const Text('Send to Server'),
               ),
             ),
